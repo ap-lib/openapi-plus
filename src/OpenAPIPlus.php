@@ -21,13 +21,15 @@ class OpenAPIPlus
     /**
      * Make openapi+ scheme. Based array of ReflectionParameters or ReflectionProperties
      *
-     * @param array<ReflectionParameter|ReflectionProperty> $params
+     * @param array<ReflectionParameter|ReflectionProperty> $reflections
+     * @param bool $requireAllWithoutDefault If true, mark all parameters without default values as required
      * @return array
      */
-    public function scheme(array $params): array
+    public function scheme(array $reflections, bool $requireAllWithoutDefault = true): array
     {
-        $schema = [];
-        foreach ($params as $param) {
+        $required   = [];
+        $properties = [];
+        foreach ($reflections as $param) {
             $name  = $param->getName();
             $type  = $param->getType();
             $field = [];
@@ -56,10 +58,14 @@ class OpenAPIPlus
             if ($param instanceof ReflectionParameter) {
                 if ($param->isDefaultValueAvailable()) {
                     $field['default'] = $param->getDefaultValue();
+                } elseif ($requireAllWithoutDefault) {
+                    $required[] = $name;
                 }
             } elseif ($param instanceof ReflectionProperty) {
                 if ($param->hasDefaultValue()) {
                     $field['default'] = $param->getDefaultValue();
+                } elseif ($requireAllWithoutDefault) {
+                    $required[] = $name;
                 }
             }
 
@@ -78,8 +84,16 @@ class OpenAPIPlus
                 }
             }
 
-            $schema[$name] = $field;
+            $properties[$name] = $field;
         }
-        return $schema;
+
+        $res = [
+            'type'       => 'object',
+            'properties' => $properties,
+        ];
+        if (count($required)) {
+            $res['required'] = $required;
+        }
+        return $res;
     }
 }
