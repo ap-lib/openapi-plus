@@ -3,7 +3,7 @@
 namespace AP\OpenAPIPlus\Maker;
 
 use AP\OpenAPIPlus\OpenAPIMakerInterface;
-use AP\Scheme\OpenAPI;
+use AP\OpenAPIPlus\OpenAPIScheme;
 use ReflectionNamedType;
 
 class ImplementedObject implements OpenAPIMakerInterface
@@ -12,7 +12,7 @@ class ImplementedObject implements OpenAPIMakerInterface
     {
         if (class_exists($type->getName())) {
             $class = $type->getName();
-            if (is_subclass_of($class, OpenAPI::class)) {
+            if (is_subclass_of($class, OpenAPIScheme::class)) {
                 $object = $class::openAPI();
                 return isset($object['type'])
                     ? $object

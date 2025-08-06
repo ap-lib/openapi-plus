@@ -65,7 +65,7 @@ class OpenAPIPlus
 
             foreach ($param->getAttributes() as $attr) {
                 $attrName = $attr->getName();
-                if (is_subclass_of($attrName, OpenAPIScheme::class)) {
+                if (is_subclass_of($attrName, OpenAPIModificator::class)) {
                     $field = $attr->newInstance()->updateOpenAPIElement($field);
                 }
             }
