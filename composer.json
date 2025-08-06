@@ -23,9 +23,6 @@
   },
   "require": {
     "php": "^8.3",
-    "ext-mbstring": "*",
-    "ap-lib/error-node": "dev-main",
-    "ap-lib/context": "dev-main",
     "ap-lib/scheme": "dev-main"
   },
   "require-dev": {
