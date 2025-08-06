@@ -97,10 +97,10 @@ class SignUpBody
     #[LabelCompany]
     public string $company_name;
 
-    #[EmailForPanelUser]
+    #[Email]
     public string $email;
 
-    #[PasswordNew]
+    #[Password(min_length: 8)]
     public string $password;
 
     #[Timezone]
