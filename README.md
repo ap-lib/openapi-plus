@@ -89,6 +89,7 @@ trait PropertiesOpenAPI
 
 Apply the trait to your class and use attribute-based validators (e.g. from [ap-lib/validator](https://github.com/ap-lib/validator)):
 
+> Example how to implement OpenAPIModificator: https://github.com/ap-lib/validator/blob/main/src/String/Email.php
 ```php
 class SignUpBody
 {
